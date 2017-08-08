@@ -1,0 +1,22 @@
+<Activity><!--函数获取符号&  函数调用符号#  资源间接地址符号@(资源,返回完整地址)  内建变量获取符号$ 阻碍执行符!紧跟#后面-->
+	<Config>
+		<Root>Activity/Activity/A10008/</Root><!--#(PlayActivity Activity/Story/M10001/M10001.xml)-->
+	</Config><!--#(NULL #(InitMisDialog #(MakeArray Activity/Story/Icons/5_17.swf) #(MakeArray 0) 摩乐乐 测试 #(GenerateFunction #!(NULL)) #(MakeArray) #(MakeArray)) #(ShowMisDialog))-->
+	<Include><!--加@的为以root地址为基准的间接地址，否则是直接地址     包含一些资源文件-->
+		<PackUrl>@entrance_art.swf</PackUrl>
+	</Include>
+	<PreLoad><!--预加载，如果存在-->
+	</PreLoad>
+	<Init>#(NULL)</Init>
+	<Finish>#(NULL)</Finish>
+	<SetupEntrance>
+		<Entrance>
+			<Map>Map001</Map><!--区域-->
+			<Display>Taste</Display><!--样式-->
+			<Position>300,200</Position>
+			<OnTrigger>#(NULL #(GotoMap Map005 #(MakePoint #(Random 0 960) #(Random 0 540))))</OnTrigger><!--当触发时执行-->
+		</Entrance>
+	</SetupEntrance>
+	<Step>
+	</Step>
+</Activity>

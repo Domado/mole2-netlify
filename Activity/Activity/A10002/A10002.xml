@@ -1,0 +1,72 @@
+<Activity><!--函数获取符号&  函数调用符号#  资源间接地址符号@(资源,返回完整地址)  内建变量获取符号$ 阻碍执行符!紧跟#后面-->
+	<Config>  <!--GetBlood tid-->
+		<Root>Activity/Activity/A10002/</Root><!--#(PlayActivity Activity/Story/M10001/M10001.xml)-->
+	</Config><!--#(NULL #(InitMisDialog #(MakeArray Activity/Story/Icons/5_17.swf) #(MakeArray 0) 摩乐乐 测试 #(GenerateFunction #!(NULL)) #(MakeArray) #(MakeArray)) #(ShowMisDialog))-->
+	<Include><!--加@的为以root地址为基准的间接地址，否则是直接地址     包含一些资源文件--></Include>
+	<PreLoad><!--预加载，如果存在--></PreLoad>
+	<Init>#(NULL #(StartActivity @A10002_1.xml))</Init>
+	<Finish>#(NULL)</Finish>
+	<SetupEntrance></SetupEntrance>
+	<Step><!--#(DefValue String port #(GetNetPort #(MakeNetFunction #!(Print p1 num) p1 num)))-->
+		<Sp><!--#(NetSend GetBlood 2 tid;10002 $port)-->
+			<Id>0</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefValue Number X -27) #(DefValue Number Y -80) #(DefValue Object netMsg #(MakeObject)) #(DefValue Object bloodPort #(MakeObject)) #(DefValue Object bloodBar #(MakeObject)) #(GotoStep 1))</Function>
+		</Sp>
+		<Sp><!--#(NetSend GetBlood 2 tid;10002 $port)-->
+			<Id>1</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefFunc Attach #!(NULL #(SetObjValue $netMsg ID #(MakeNetFunction #!(CallObjFunction #(GetObjValue $bloodBar ID) SetValue num) sb num)) #(SetObjValue $bloodPort ID #(GetNetPort #(GetObjValue $netMsg ID))) #(NetSend GetBlood 2 #(BineString tid ; ID) #(GetObjValue $bloodPort ID)) #(SetObjValue $bloodBar ID #(GetBloodBar $X $Y)) #(AttachTo #(GetObjValue $bloodBar ID) ID)) ID) #(Attach $TempID) #(GotoStep 2))</Function>
+		</Sp>
+		<Sp>
+			<Id>2</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefFunc OnPlayerAddFunc #!(Attach param) param) #(DefValue Function OnPlayerAddFunction #(AddAPIEventListener OnPlayerAdded OnPlayerAddFunc)) #(GotoStep 3))</Function>
+		</Sp>
+		<Sp>
+			<Id>3</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefValue Function noBack #(MakeNetFunction #!(NULL) p1 p2)) #(DefValue String hurtPort #(GetNetPort $noBack)) #(GotoStep 4))</Function>
+		</Sp>
+		<Sp>
+			<Id>4</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefFunc OnDie #!(NULL #(Clock 50 1 #!(DoAction cry dd) #!(NULL)))) #(GotoStep 5))</Function>
+		</Sp>
+		<Sp>
+			<Id>5</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction> <!--当被打到，向服务器上报数据-->
+			<Function>#(NULL #(DefFunc OnPlayerHurtFunc #!(NULL #(Branch #(LessThen #(Add #(GetObjValue #(GetObjValue $bloodBar $TempID) blood) #(BineString - pm1)) 0.01) #!(NULL #(OnDie) #(SetGloableData ThrowItemHurt 0)) #!(NULL)) #(NetSend SetBlood 2 #(BineString num ; #(Add #(GetObjValue #(GetObjValue $bloodBar $TempID) blood) #(BineString - pm1))) $hurtPort)) pm1) #(GotoStep 6))</Function>
+		</Sp>
+		<Sp>
+			<Id>6</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefValue Function OnPlayerHurtFunction #(AddAPIEventListener OnHurt OnPlayerHurtFunc)) #(GotoStep 7))</Function>
+		</Sp>
+		<Sp>
+			<Id>7</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction><!--绑定在Blood回传信息上-->
+			<Function>#(NULL #(DefFunc OnSetAvatarBlood #!(NULL #(CallObjFunction #(GetObjValue $bloodBar #(GetSpliteAt bloodData ; 0)) SetValue #(GetSpliteAt bloodData ; 1)) #(Print #(GetObjValue #(GetObjValue $bloodBar #(GetSpliteAt bloodData ; 0)) blood))) bloodData) #(AddAPIEventListener OnSetBlood OnSetAvatarBlood) #(GotoStep 8))</Function>
+		</Sp>
+		<Sp>
+			<Id>8</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefFunc OnRemove #!(NULL #(ReleaseNetPort #(GetObjValue $bloodPort ppid)) #(SetObjValue $netMsg ppid #(NULL)) #(SetObjValue $bloodPort ppid #(NULL)) #(SetObjValue $bloodBar ppid #(NULL))) ppid) #(AddAPIEventListener OnPlayerRemove OnRemove) #(GotoStep 9))</Function>
+		</Sp>
+		<Sp>
+			<Id>9</Id>
+			<Condition>#(IsEqual #(GetObjValue #(GetObjValue $bloodBar $TempID) blood) 0)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(ShowDialog emoy sad #(MakeString 你没血了，攻击力会变成零！去补血吧。) #(NULL)) #(GotoMap Map005 #(MakePoint #(Random 0 960) #(Random 0 540))))</Function>
+		</Sp>
+	</Step>
+</Activity>

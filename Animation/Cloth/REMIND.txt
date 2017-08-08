@@ -1,0 +1,7 @@
+尾数为类型标识 
+1 cloth
+2 shoes
+3 hand
+4 necklace
+5 eyes
+6 hat

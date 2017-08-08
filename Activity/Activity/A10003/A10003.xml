@@ -1,0 +1,21 @@
+<Activity><!--函数获取符号&  函数调用符号#  资源间接地址符号@(资源,返回完整地址)  内建变量获取符号$ 阻碍执行符!紧跟#后面-->
+	<Config>
+		<Root>Activity/Activity/A10003/</Root><!--#(PlayActivity Activity/Story/M10001/M10001.xml)-->
+	</Config><!--#(NULL #(InitMisDialog #(MakeArray Activity/Story/Icons/5_17.swf) #(MakeArray 0) 摩乐乐 测试 #(GenerateFunction #!(NULL)) #(MakeArray) #(MakeArray)) #(ShowMisDialog))-->
+	<Include><!--加@的为以root地址为基准的间接地址，否则是直接地址     包含一些资源文件-->
+	</Include>
+	<PreLoad><!--预加载，如果存在-->
+	</PreLoad>
+	<Init>#(NULL #(DefValue Object sentence #(MakeObject)) #(DefFunc Say #!(ShowMsg #(GetObjValue $sentence #(MakeInt #(Random 0 ado)))) ado) #(DefFunc SetSen #!(SetObjValue $sentence place #(BineString $MoleName : str)) place str) #(SetSen 0 好想要一只拉姆呀!) #(SetSen 1 今天的时报有更新吗？) #(SetSen 2 没血了可以去乐乐基地补血哦！) #(SetSen 3 星光政权是什么东西？) #(SetSen 4 你听说过盗贼联盟吗？) #(SetSen 5 以前的摩尔庄园2关服了真可惜) #(SetSen 6 好想有自己的小屋。) #(SetSen 7 有时候会下雨哦) #(SetSen 8 什么时候服装店才开业呢？) #(SetSen 9 有点困了呢。))</Init>
+	<Finish>#(NULL)</Finish>
+	<SetupEntrance>
+	</SetupEntrance>
+	<Step>
+		<Sp><!--#(NetSend GetBlood 2 tid;10002 $port)-->
+			<Id>0</Id>
+			<Condition>#(True)</Condition>
+			<UnFunction>#(NULL)</UnFunction>
+			<Function>#(NULL #(DefFunc Loop #!(Clock #(Multiply #(Abs #(NextGaussian 2 4)) 10000) 1 #!(NULL #(Say 10) #(Loop)) #(NULL))) #(Loop))</Function>
+		</Sp>
+	</Step>
+</Activity>
